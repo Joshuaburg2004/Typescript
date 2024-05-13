@@ -4,7 +4,25 @@ const threeThings = [1, ["a string", 105n], true];
 function f(_) {
     console.log(_);
 }
-f([true, true]);
+const Person = {
+    Default: (data) => ({
+        ...data, // "with" syntax for quick record copy == "spread" operator
+        aged: function (extraYears) {
+            return Person.Updaters.aged(extraYears)(this);
+        }
+    }),
+    Updaters: {
+        aged: (extraYears) => (person) => Person.Default({ ...person, age: person.age + extraYears })
+    },
+};
+const jimmy = Person.Default({
+    surname: "Malcolm", name: "Lionel", age: 21,
+});
+const jimmyOlder = jimmy.aged(18);
+console.log(jimmy);
+console.log(jimmyOlder);
+const add_c = x => y => x + y;
+const add_uc = ([x, y]) => x + y;
 /*
 : thing : = size
 boolean, boolean => 4 combo's
