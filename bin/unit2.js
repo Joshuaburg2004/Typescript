@@ -38,26 +38,25 @@ const move = (b) => {
     // 3 => left
     if (num == 0) {
         return ({
-            Position: new Point2DExtention([b.Position.Position[0], b.Position.Position[1] + b.Speed]),
-            Speed: b.Speed
+            ...b,
+            Position: new Point2DExtention([b.Position.Position[0], b.Position.Position[1] + b.Speed])
         });
     }
     if (num == 1) {
         return ({
-            Position: new Point2DExtention([b.Position.Position[0] + b.Speed, b.Position.Position[1]]),
-            Speed: b.Speed
+            ...b,
+            Position: new Point2DExtention([b.Position.Position[0] + b.Speed, b.Position.Position[1]])
+        });
+    }
+    if (num == 2) {
+        return ({
+            ...b, Position: new Point2DExtention([b.Position.Position[0], b.Position.Position[1] - b.Speed])
         });
     }
     if (num == 3) {
         return ({
-            Position: new Point2DExtention([b.Position.Position[0], b.Position.Position[1] - b.Speed]),
-            Speed: b.Speed
-        });
-    }
-    if (num == 4) {
-        return ({
-            Position: new Point2DExtention([b.Position.Position[0] - b.Speed, b.Position.Position[1]]),
-            Speed: b.Speed
+            ...b,
+            Position: new Point2DExtention([b.Position.Position[0] - b.Speed, b.Position.Position[1]])
         });
     }
     return null;
@@ -66,3 +65,29 @@ let b = blobConstructor();
 console.log(b);
 let n = move(b);
 console.log(n);
+console.log("============EX-5============");
+class world {
+    constructor(tick) {
+        this.bl1 = ({ Position: new Point2DExtention([getRandom(-50)(50), getRandom(-50)(50)]), Speed: getRandom(1)(5) });
+        this.bl2 = ({ Position: new Point2DExtention([getRandom(-50)(50), getRandom(-50)(50)]), Speed: getRandom(1)(5) });
+        this.ticks = tick;
+    }
+    /**
+     * Run
+     */
+    Run() {
+        const run = (i) => {
+            if (i > this.ticks) {
+                return;
+            }
+            this.bl1 = move(this.bl1);
+            this.bl2 = move(this.bl2);
+            console.log(this.bl1);
+            console.log(this.bl2);
+            run(i + 1);
+        };
+        run(0);
+    }
+}
+let w = new world(15);
+w.Run();
