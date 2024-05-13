@@ -1,38 +1,22 @@
 "use strict";
 console.log("EX-1");
 const allNumber = (n) => {
-    // if(n == -1){
-    //     return ""
-    // }
-    // const allnumber = allNumber(n - 1)
-    // if(allnumber == ""){
-    //     return String(n)
-    // }
-    // return allnumber + " " + String(n)
-    const allnumber = (n) => (i) => {
+    const allnumber = (i) => {
         if (n == i)
             return String(n);
-        return i + " " + allnumber(n)(i + 1);
+        return i + " " + allnumber(i + 1);
     };
-    return allnumber(n)(0);
+    return allnumber(0);
 };
 console.log(allNumber(7));
 console.log("EX-2");
 const allRevNumber = (n) => {
-    // if(n == -1){
-    //     return ""
-    // }
-    // const allnumber = allNumber(n - 1)
-    // if(allnumber == ""){
-    //     return String(n)
-    // }
-    // return String(n) + " " + allnumber
-    const allnumber = (n) => (i) => {
+    const allnumber = (i) => {
         if (n == i)
             return String(n);
-        return allnumber(n)(i + 1) + " " + i;
+        return allnumber(i + 1) + " " + i;
     };
-    return allnumber(n)(0);
+    return allnumber(0);
 };
 console.log(allRevNumber(7));
 console.log("EX-3");
