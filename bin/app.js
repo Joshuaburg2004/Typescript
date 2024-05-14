@@ -21,14 +21,6 @@ const allRevNumber = (n) => {
 console.log(allRevNumber(7));
 console.log("EX-3");
 const allNumberRange = (lower) => (upper) => {
-    // if(n == lower - 1){
-    //     return ""
-    // }
-    // const allnumber = allNumber(n - 1)
-    // if(allnumber == ""){
-    //     return String(n)
-    // }
-    // return allnumber + " " + String(n)
     const allnumber = (n) => (i) => {
         if (n == i)
             return String(n);
