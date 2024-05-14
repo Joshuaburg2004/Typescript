@@ -1,8 +1,6 @@
 function Range(min: number, max?: number, step?: number) : string{
     const range = (mi: number) => (ma: number) => (ste: number) : string =>{
-        if((ste < 0 && mi < ma) || (ste > 0 && mi > ma))
-            return ""
-        if(mi > ma)
+        if((ste < 0 && mi < ma) || (ste > 0 && mi > ma) || mi > ma)
             return ""
         if(mi == ma){
             return String(ma)
