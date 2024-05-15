@@ -1,5 +1,5 @@
 {
-  "name": "Typescript",
+  "name": "typescript",
   "version": "1.0.0",
   "description": "Testing Project for Typescript lessons",
   "main": "src/main.ts",
@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "node ./bin/sample1.js",
-    "dev": "ts-node ./src/sample1.ts"
+    "start": "node ./bin/sample2.js",
+    "dev": "ts-node ./src/sample2.ts"
   },
   "dependencies": {
     "@types/node": "^20.12.7",
