@@ -50,29 +50,27 @@ or = + in combo's
 and = * in combo's
  */
 type Job = {name:string, description:string, salary:number}
-type Employee = Person & {
-  job:Job
-}
+type Employee = Person & Job
 
 const Employee = {
   Default:(person:Person, job:Job): Employee =>
-    ({...person, job}),
+    ({...person, ...job}),
   Updaters:{
     person:(_:Updater<Person>) :Updater<Employee> =>
       currentEmployee => ({...currentEmployee, ..._(currentEmployee)}),
     job:(_:Updater<Job>) :Updater<Employee> =>
-      currentEmployee => ({...currentEmployee, job:_(currentEmployee.job)}),
+      currentEmployee => ({...currentEmployee, ..._(currentEmployee)}),
   }
 }
 
 const e = Employee.Updaters.person(Person.Updaters.aged(10))(Employee.Default(Person.Default({name:"Jim", surname:"Pim", age:20}),
 {name: "Cashier",description: "AH Cashier", salary: 13.5}))
-function PrettyPrintPerson(p: Person){
-  console.log(`${p.name}, ${p.surname} is ${p.age} years old`)
+function PrettyPrintPerson(p: Person, cont:BasicFun<string, void>){
+  cont(`${p.name}, ${p.surname} is ${p.age} years old`)
 }
-function PrettyPrintJob(j: Job){
-  console.log(`${j.description} pays ${j.salary} euro per hour`)
+function PrettyPrintJob(j: Job, cont:BasicFun<string, void>){
+  cont(`${j.description} pays ${j.salary} euro per hour`)
 }
 
-PrettyPrintPerson(e)
-PrettyPrintJob(e.job)
+PrettyPrintPerson(e, console.log)
+PrettyPrintJob(e, console.log)

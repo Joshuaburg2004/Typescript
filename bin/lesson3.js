@@ -24,18 +24,18 @@ console.log(jimmyOlder);
 const add_c = x => y => x + y;
 const add_uc = ([x, y]) => x + y;
 const Employee = {
-    Default: (person, job) => ({ ...person, job }),
+    Default: (person, job) => ({ ...person, ...job }),
     Updaters: {
         person: (_) => currentEmployee => ({ ...currentEmployee, ..._(currentEmployee) }),
-        job: (_) => currentEmployee => ({ ...currentEmployee, job: _(currentEmployee.job) }),
+        job: (_) => currentEmployee => ({ ...currentEmployee, ..._(currentEmployee) }),
     }
 };
 const e = Employee.Updaters.person(Person.Updaters.aged(10))(Employee.Default(Person.Default({ name: "Jim", surname: "Pim", age: 20 }), { name: "Cashier", description: "AH Cashier", salary: 13.5 }));
-function PrettyPrintPerson(p) {
-    console.log(`${p.name}, ${p.surname} is ${p.age} years old`);
+function PrettyPrintPerson(p, cont) {
+    cont(`${p.name}, ${p.surname} is ${p.age} years old`);
 }
-function PrettyPrintJob(j) {
-    console.log(`${j.description} pays ${j.salary} euro per hour`);
+function PrettyPrintJob(j, cont) {
+    cont(`${j.description} pays ${j.salary} euro per hour`);
 }
-PrettyPrintPerson(e);
-PrettyPrintJob(e.job);
+PrettyPrintPerson(e, console.log);
+PrettyPrintJob(e, console.log);
