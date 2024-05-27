@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "node ./bin/lesson3.js",
-    "dev": "ts-node ./src/lesson3.ts"
+    "start": "node ./bin/unit3.js",
+    "dev": "ts-node ./src/unit3.ts"
   },
   "dependencies": {
     "@types/node": "^20.12.7",
