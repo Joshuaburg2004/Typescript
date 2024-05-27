@@ -55,3 +55,31 @@ const rev = (l) => {
     return inner(l)(emptyList());
 };
 console.log(rev(filledList(15, 12, 9, 6, 3)));
+console.log("EX-3");
+const append = (l1) => (l2) => {
+    if (l1.kind == "empty") {
+        return l2;
+    }
+    return {
+        kind: "list",
+        head: l1.head,
+        tail: append(l1.tail)(l2)
+    };
+};
+const l1 = filledList(1);
+const l2 = filledList(2, 3);
+console.log(append(l1)(l2));
+console.log("EX-4");
+const nth = (n) => (l) => {
+    const item = (index) => (list) => {
+        if (index > n || list.kind == "empty") {
+            return { kind: "none" };
+        }
+        if (index == n) {
+            return { kind: "some", value: list.head };
+        }
+        return item(index + 1n)(list.tail);
+    };
+    return item(0n)(l);
+};
+console.log(nth(4n)(filledList(1, 2, 3, 4, 5, 6)));
