@@ -68,17 +68,14 @@ console.log("EX-2")
 const rev = <T>(l: List<T>): List<T> => {
   const inner = (liner: List<T>) => (emptyL: List<T>): List<T> => {
     if(liner.kind == "empty"){
-        return emptyList()
+        return emptyL
     }
-    if(liner.tail.kind != "empty"){
-        emptyL = liner.tail
-        return {
-            kind:"list",
-            head:liner.tail.head,
-            tail:emptyL
-        }
+    emptyL = {
+      kind: "list",
+      head: liner.head,
+      tail: emptyL
     }
-    return filledList(liner.head)
+    return inner(liner.tail)(emptyL)
   }
   return inner(l)(emptyList())
 }

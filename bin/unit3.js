@@ -43,17 +43,14 @@ console.log("EX-2");
 const rev = (l) => {
     const inner = (liner) => (emptyL) => {
         if (liner.kind == "empty") {
-            return emptyList();
+            return emptyL;
         }
-        if (liner.tail.kind != "empty") {
-            emptyL = liner.tail;
-            return {
-                kind: "list",
-                head: liner.tail.head,
-                tail: emptyL
-            };
-        }
-        return filledList(liner.head);
+        emptyL = {
+            kind: "list",
+            head: liner.head,
+            tail: emptyL
+        };
+        return inner(liner.tail)(emptyL);
     };
     return inner(l)(emptyList());
 };
