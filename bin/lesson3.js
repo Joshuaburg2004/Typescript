@@ -18,16 +18,24 @@ const Person = {
 const jimmy = Person.Default({
     surname: "Malcolm", name: "Lionel", age: 21,
 });
-const jimmyOlder = jimmy.aged(18);
+const jimmyOlder = jimmy;
 console.log(jimmy);
 console.log(jimmyOlder);
 const add_c = x => y => x + y;
 const add_uc = ([x, y]) => x + y;
-/*
-: thing : = size
-boolean, boolean => 4 combo's
-:boolean: = 2, :boolean | unassigned: = 3 => 6 combo's
-boolean | unassigned, boolean | unassigned => 9 combo's
-or = + in combo's
-and = * in combo's
- */
+const Employee = {
+    Default: (person, job) => ({ ...person, job }),
+    Updaters: {
+        person: (_) => currentEmployee => ({ ...currentEmployee, ..._(currentEmployee) }),
+        job: (_) => currentEmployee => ({ ...currentEmployee, job: _(currentEmployee.job) }),
+    }
+};
+const e = Employee.Updaters.person(Person.Updaters.aged(10))(Employee.Default(Person.Default({ name: "Jim", surname: "Pim", age: 20 }), { name: "Cashier", description: "AH Cashier", salary: 13.5 }));
+function PrettyPrintPerson(p) {
+    console.log(`${p.name}, ${p.surname} is ${p.age} years old`);
+}
+function PrettyPrintJob(j) {
+    console.log(`${j.description} pays ${j.salary} euro per hour`);
+}
+PrettyPrintPerson(e);
+PrettyPrintJob(e.job);

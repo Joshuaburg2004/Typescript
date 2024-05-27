@@ -1,4 +1,3 @@
-
 const aggregate = (reducer: (n: number) => (y: number) => number) => (begin: number) => (end: number) : number => {
     const loop = (i: number) : number => {
         if(i > end) return 0
@@ -6,6 +5,7 @@ const aggregate = (reducer: (n: number) => (y: number) => number) => (begin: num
     }
     return loop(begin)
 }
+
 const reducer = (a:number) : ((b: number) => number) => b => a + b
 
 console.log(reducer(1)(reducer(2)(reducer(3)(4))))
