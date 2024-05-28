@@ -1,4 +1,13 @@
 "use strict";
+const prettyprintList = (l) => {
+    if (l.kind == "empty") {
+        console.log("done");
+    }
+    else {
+        console.log(l.head);
+        prettyprintList(l.tail);
+    }
+};
 const emptyList = () => ({
     kind: "empty"
 });
@@ -54,7 +63,7 @@ const rev = (l) => {
     };
     return inner(l)(emptyList());
 };
-console.log(rev(filledList(15, 12, 9, 6, 3)));
+prettyprintList(rev(filledList(15, 12, 9, 6, 3)));
 console.log("EX-3");
 const append = (l1) => (l2) => {
     if (l1.kind == "empty") {
@@ -68,7 +77,7 @@ const append = (l1) => (l2) => {
 };
 const l1 = filledList(1);
 const l2 = filledList(2, 3);
-console.log(append(l1)(l2));
+prettyprintList(append(l1)(l2));
 console.log("EX-4");
 const nth = (n) => (l) => {
     const item = (index) => (list) => {
@@ -83,3 +92,4 @@ const nth = (n) => (l) => {
     return item(0n)(l);
 };
 console.log(nth(4n)(filledList(1, 2, 3, 4, 5, 6)));
+console.log("EX-5");

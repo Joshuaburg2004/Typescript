@@ -5,6 +5,14 @@ type Option<T> = {
   value: T
 }
 
+const prettyprintList = <T>(l: List<T>) =>{
+  if(l.kind == "empty"){console.log("done")}
+  else{
+    console.log(l.head)
+    prettyprintList(l.tail)
+  }
+}
+
 type List<T> = { 
   kind: "empty" 
 }
@@ -47,7 +55,6 @@ console.log(findIndex([1, 2, 3, 4, 5, 6, 7, 8])(-7))
 console.log(findValue([1, 2, 3, 4, 5, 6, 7, 8])(-7))
 
 
-
 console.log("EX-1")
 const last = <T>(l : List<T>):Option<T> =>
 {
@@ -80,7 +87,7 @@ const rev = <T>(l: List<T>): List<T> => {
   return inner(l)(emptyList())
 }
 
-console.log(rev(filledList(15, 12, 9, 6, 3)))
+prettyprintList(rev(filledList(15, 12, 9, 6, 3)))
 
 console.log("EX-3")
 const append = <T>(l1 : List<T>) => (l2 : List<T>) : List<T> =>{
@@ -96,7 +103,7 @@ const append = <T>(l1 : List<T>) => (l2 : List<T>) : List<T> =>{
 
 const l1 = filledList(1)
 const l2 = filledList(2, 3)
-console.log(append(l1)(l2))
+prettyprintList(append(l1)(l2))
 
 console.log("EX-4")
 
