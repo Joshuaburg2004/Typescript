@@ -124,3 +124,39 @@ const nth = <T>(n : bigint) => (l : List<T>) : Option<T> => {
 console.log(nth(4n)(filledList(1, 2, 3, 4, 5, 6)))
 
 console.log("EX-5")
+const palindrome = <T>(l : List<T>) : boolean => {
+  const inner = (curr: List<T>) => (revl: List<T>): boolean => {
+    if(curr.kind != "empty" && revl.kind != "empty"){
+      if(curr.tail.kind == "empty"){return true}
+      if(curr.head == revl.head){return inner(curr.tail)(revl.tail)}
+      return false
+    }
+    return true
+  }
+  return inner(l)(rev(l))
+}
+
+console.log(palindrome(filledList(1, 2, 3, 4, 3, 2, 1)))
+console.log(palindrome(filledList(1)))
+console.log(palindrome(filledList(1, 3, 4, 3, 2, 1)))
+
+console.log("EX-6")
+
+const compress = <T>(l : List<T>) : List<T> => {
+  const inner = (curr: List<T>) => (item: Option<T>) : List<T> => {
+    if(curr.kind == "empty"){
+      return emptyList()
+    }
+    if(item.kind == "none" || item.value != curr.head){
+      return {
+        kind: "list",
+        head: curr.head,
+        tail: inner(curr.tail)({kind: "some", value: curr.head})
+      }
+    }
+    return inner(curr.tail)(item)
+  }
+  return inner(l)({kind: "none"})
+}
+
+prettyprintList(compress(filledList(1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 2, 1, 0)))
