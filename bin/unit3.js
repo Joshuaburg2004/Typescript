@@ -1,11 +1,11 @@
 "use strict";
-const prettyprintList = (l) => {
+const prettyprintList = (l, cont) => {
     if (l.kind == "empty") {
         console.log("done");
     }
     else {
-        console.log(l.head);
-        prettyprintList(l.tail);
+        cont(l.head);
+        prettyprintList(l.tail, cont);
     }
 };
 const emptyList = () => ({
@@ -63,7 +63,7 @@ const rev = (l) => {
     };
     return inner(l)(emptyList());
 };
-prettyprintList(rev(filledList(15, 12, 9, 6, 3)));
+prettyprintList(rev(filledList(15, 12, 9, 6, 3)), console.log);
 console.log("EX-3");
 const append = (l1) => (l2) => {
     if (l1.kind == "empty") {
@@ -77,7 +77,7 @@ const append = (l1) => (l2) => {
 };
 const l1 = filledList(1);
 const l2 = filledList(2, 3);
-prettyprintList(append(l1)(l2));
+prettyprintList(append(l1)(l2), console.log);
 console.log("EX-4");
 const nth = (n) => (l) => {
     const item = (index) => (list) => {
@@ -128,4 +128,5 @@ const compress = (l) => {
     };
     return inner(l)({ kind: "none" });
 };
-prettyprintList(compress(filledList(1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 2, 1, 0)));
+prettyprintList(compress(filledList(1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 2, 1, 0)), console.log);
+// const caesarCypher = (l: List<string>) => ()

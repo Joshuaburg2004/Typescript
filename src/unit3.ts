@@ -5,11 +5,11 @@ type Option<T> = {
   value: T
 }
 
-const prettyprintList = <T>(l: List<T>) =>{
+const prettyprintList = <T>(l: List<T>, cont:BasicFun<T, void>) =>{
   if(l.kind == "empty"){console.log("done")}
   else{
-    console.log(l.head)
-    prettyprintList(l.tail)
+    cont(l.head)
+    prettyprintList(l.tail, cont)
   }
 }
 
@@ -87,7 +87,7 @@ const rev = <T>(l: List<T>): List<T> => {
   return inner(l)(emptyList())
 }
 
-prettyprintList(rev(filledList(15, 12, 9, 6, 3)))
+prettyprintList(rev(filledList(15, 12, 9, 6, 3)), console.log)
 
 console.log("EX-3")
 const append = <T>(l1 : List<T>) => (l2 : List<T>) : List<T> =>{
@@ -103,7 +103,7 @@ const append = <T>(l1 : List<T>) => (l2 : List<T>) : List<T> =>{
 
 const l1 = filledList(1)
 const l2 = filledList(2, 3)
-prettyprintList(append(l1)(l2))
+prettyprintList(append(l1)(l2), console.log)
 
 console.log("EX-4")
 
@@ -159,4 +159,9 @@ const compress = <T>(l : List<T>) : List<T> => {
   return inner(l)({kind: "none"})
 }
 
-prettyprintList(compress(filledList(1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 2, 1, 0)))
+prettyprintList(compress(filledList(1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 2, 1, 0)), console.log)
+
+const caesarCypher = (l: List<string>) => (shift: BigInt) : List<string> =>
+  {
+    
+  }
