@@ -1,7 +1,7 @@
 "use strict";
 const prettyprintList = (l, cont) => {
     if (l.kind == "empty") {
-        console.log("done");
+        return;
     }
     else {
         cont(l.head);
@@ -129,4 +129,45 @@ const compress = (l) => {
     return inner(l)({ kind: "none" });
 };
 prettyprintList(compress(filledList(1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 2, 1, 0)), console.log);
-// const caesarCypher = (l: List<string>) => ()
+const caesarCypherSmallOnly = (l) => (shift) => {
+    const caesar = (list) => {
+        if (list.kind == "list" && list.head.charCodeAt(0) + Number(shift) <= 122) {
+            return ({
+                kind: "list",
+                head: String.fromCharCode(list.head.charCodeAt(0) + Number(shift)),
+                tail: caesar(list.tail)
+            });
+        }
+        if (list.kind == "list" && list.head.charCodeAt(0) + Number(shift) >= 122) {
+            return ({
+                kind: "list",
+                head: String.fromCharCode(list.head.charCodeAt(0) + Number(shift) + 96 - 122),
+                tail: caesar(list.tail)
+            });
+        }
+        return emptyList();
+    };
+    return caesar(l);
+};
+const caesarCypher = (l) => (shift) => {
+    const caesar = (list) => {
+        if (list.kind == "list" && list.head.charCodeAt(0) + Number(shift) <= 122) {
+            return ({
+                kind: "list",
+                head: String.fromCharCode(list.head.charCodeAt(0) + Number(shift)),
+                tail: caesar(list.tail)
+            });
+        }
+        if (list.kind == "list" && list.head.charCodeAt(0) + Number(shift) >= 122) {
+            return ({
+                kind: "list",
+                head: String.fromCharCode(list.head.charCodeAt(0) + Number(shift) + 65 - 122),
+                tail: caesar(list.tail)
+            });
+        }
+        return emptyList();
+    };
+    return caesar(l);
+};
+prettyprintList(caesarCypher(filledList("h", "z", "g", "b"))(15n), console.log);
+prettyprintList(caesarCypherSmallOnly(filledList("h", "z", "g", "b"))(15n), console.log);

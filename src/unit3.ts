@@ -6,7 +6,7 @@ type Option<T> = {
 }
 
 const prettyprintList = <T>(l: List<T>, cont:BasicFun<T, void>) =>{
-  if(l.kind == "empty"){console.log("done")}
+  if(l.kind == "empty"){return}
   else{
     cont(l.head)
     prettyprintList(l.tail, cont)
@@ -161,7 +161,52 @@ const compress = <T>(l : List<T>) : List<T> => {
 
 prettyprintList(compress(filledList(1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 2, 1, 0)), console.log)
 
-const caesarCypher = (l: List<string>) => (shift: BigInt) : List<string> =>
-  {
+const caesarCypher = (l: List<string>) => (shift: bigint) : List<string> =>
+{
+  const caesar = (list: List<string>) : List<string> => {
+    if(list.kind == "list" && list.head.charCodeAt(0) + Number(shift) <= 122){
+      return ({
+        kind: "list",
+        head: String.fromCharCode(list.head.charCodeAt(0) + Number(shift)),
+        tail: caesar(list.tail)
+      })
+    }
+    if(list.kind == "list" && list.head.charCodeAt(0) + Number(shift) >= 122){
+      return ({
+        kind: "list",
+        head: String.fromCharCode(list.head.charCodeAt(0) + Number(shift) + 96 - 122),
+        tail: caesar(list.tail)
+      }) 
+    }
     
+    return emptyList()
   }
+  return caesar(l)
+}
+
+const caesarCypherWithUpper = (l: List<string>) => (shift: bigint) : List<string> =>
+  {
+    const caesar = (list: List<string>) : List<string> => {
+      if(list.kind == "list" && list.head.charCodeAt(0) + Number(shift) <= 122){
+        return ({
+          kind: "list",
+          head: String.fromCharCode(list.head.charCodeAt(0) + Number(shift)),
+          tail: caesar(list.tail)
+        })
+      }
+      if(list.kind == "list" && list.head.charCodeAt(0) + Number(shift) >= 122){
+        return ({
+          kind: "list",
+          head: String.fromCharCode(list.head.charCodeAt(0) + Number(shift) + 65 - 122),
+          tail: caesar(list.tail)
+        }) 
+      }
+      
+      return emptyList()
+    }
+    return caesar(l)
+  }
+
+prettyprintList(caesarCypherWithUpper(filledList("h", "z", "g", "b"))(15n), console.log)
+prettyprintList(caesarCypher(filledList("h", "z", "g", "b"))(15n), console.log)
+
