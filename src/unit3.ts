@@ -161,6 +161,8 @@ const compress = <T>(l : List<T>) : List<T> => {
 
 prettyprintList(compress(filledList(1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 2, 1, 0)), console.log)
 
+
+console.log("EX-7")
 const caesarCypher = (l: List<string>) => (shift: bigint) : List<string> =>
 {
   const caesar = (list: List<string>) : List<string> => {
@@ -209,4 +211,35 @@ const caesarCypherWithUpper = (l: List<string>) => (shift: bigint) : List<string
 
 prettyprintList(caesarCypherWithUpper(filledList("h", "z", "g", "b"))(15n), console.log)
 prettyprintList(caesarCypher(filledList("h", "z", "g", "b"))(15n), console.log)
+console.log("EX-8")
+const splitAt = <T>(i : bigint) => (l : List<T>) : [List<T>,List<T>] =>{
+  const splitter = (iterator: bigint) => (list: List<T>) : [List<T>, List<T>] => {
+    if(list.kind == "list" && iterator <= i){
+      return[
+        ({
+          kind: "list",
+          head: list.head,
+          tail: splitter(iterator + 1n)(list.tail)[0]
+        }),
+        splitter(iterator + 1n)(list.tail)[1]
+      ]
+    }
+    if(list.kind == "list" && iterator > i){
+      return[
+        splitter(iterator + 1n)(list.tail)[0],
+        ({
+          kind: "list",
+          head: list.head,
+          tail: splitter(iterator + 1n)(list.tail)[1]
+        })
+      ]
+    }
+    return [emptyList(), emptyList()]
+  }
+  return splitter(0n)(l)
+}
+
+prettyprintList(splitAt(5n)(filledList(1,2,3,4,5,6,7,8,9))[0], console.log)
+console.log("-------")
+prettyprintList(splitAt(5n)(filledList(1,2,3,4,5,6,7,8,9))[1], console.log)
 

@@ -129,7 +129,7 @@ const compress = (l) => {
     return inner(l)({ kind: "none" });
 };
 prettyprintList(compress(filledList(1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 2, 1, 0)), console.log);
-const caesarCypherSmallOnly = (l) => (shift) => {
+const caesarCypher = (l) => (shift) => {
     const caesar = (list) => {
         if (list.kind == "list" && list.head.charCodeAt(0) + Number(shift) <= 122) {
             return ({
@@ -149,7 +149,7 @@ const caesarCypherSmallOnly = (l) => (shift) => {
     };
     return caesar(l);
 };
-const caesarCypher = (l) => (shift) => {
+const caesarCypherWithUpper = (l) => (shift) => {
     const caesar = (list) => {
         if (list.kind == "list" && list.head.charCodeAt(0) + Number(shift) <= 122) {
             return ({
@@ -169,5 +169,34 @@ const caesarCypher = (l) => (shift) => {
     };
     return caesar(l);
 };
+prettyprintList(caesarCypherWithUpper(filledList("h", "z", "g", "b"))(15n), console.log);
 prettyprintList(caesarCypher(filledList("h", "z", "g", "b"))(15n), console.log);
-prettyprintList(caesarCypherSmallOnly(filledList("h", "z", "g", "b"))(15n), console.log);
+const splitAt = (i) => (l) => {
+    const splitter = (iterator) => (list) => {
+        if (list.kind == "list" && iterator <= i) {
+            return [
+                ({
+                    kind: "list",
+                    head: list.head,
+                    tail: splitter(iterator + 1n)(list.tail)[0]
+                }),
+                splitter(iterator + 1n)(list.tail)[1]
+            ];
+        }
+        if (list.kind == "list" && iterator > i) {
+            return [
+                splitter(iterator + 1n)(list.tail)[0],
+                ({
+                    kind: "list",
+                    head: list.head,
+                    tail: splitter(iterator + 1n)(list.tail)[1]
+                })
+            ];
+        }
+        return [emptyList(), emptyList()];
+    };
+    return splitter(0n)(l);
+};
+prettyprintList(splitAt(5n)(filledList(1, 2, 3, 4, 5, 6, 7, 8, 9))[0], console.log);
+console.log("-------");
+prettyprintList(splitAt(5n)(filledList(1, 2, 3, 4, 5, 6, 7, 8, 9))[1], console.log);
