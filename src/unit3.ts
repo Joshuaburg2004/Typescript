@@ -243,3 +243,88 @@ prettyprintList(splitAt(5n)(filledList(1,2,3,4,5,6,7,8,9))[0], console.log)
 console.log("-------")
 prettyprintList(splitAt(5n)(filledList(1,2,3,4,5,6,7,8,9))[1], console.log)
 
+console.log("EX-9")
+const merge = <T>(l1: List<T>) => (l2: List<T>) : List<T> => {
+  const merger = (curr1: List<T>) => (curr2 : List<T>) : List<T> => {
+    if(curr1.kind == "empty"){
+      return curr2
+    }
+    if(curr2.kind == "empty"){
+      return curr1
+    }
+    if(curr1.head < curr2.head){
+      return ({
+        kind: "list",
+        head: curr1.head,
+        tail: merger(curr1.tail)(curr2)
+      })
+    }
+    return ({
+      kind: "list",
+      head: curr2.head,
+      tail: merger(curr1)(curr2.tail)
+    })
+  }
+  return merger(l1)(l2)
+}
+
+prettyprintList(merge(filledList(1, 2, 3, 5, 6,7))(filledList(4, 8, 9, 10)), console.log)
+prettyprintList(merge(filledList("d", "e", "f"))(filledList("a", "b", "c", "p")), console.log)
+
+console.log("EX-10")
+
+const mergeSort = <T>(l1: List<T>) : List<T> => {
+  const sortedMerge = (l2: List<T>) => (l3: List<T>) : List<T> => {
+    if(l3.kind == "empty"){
+      return l2
+    }
+    if(l2.kind == "empty"){
+      return l3
+    }
+    if(l3.head < l2.head){
+      return ({
+        kind: "list",
+        head: l3.head,
+        tail: sortedMerge(l3.tail)(l2)
+      })
+    }
+    return ({
+      kind: "list",
+      head: l2.head,
+      tail: sortedMerge(l3)(l2.tail)
+    })
+  }
+  const mergeSorter = (curr1: List<T>) : List<T> => {
+    if(curr1.kind == "empty" || curr1.tail.kind == "empty"){
+      return curr1
+    }
+    const list = getMiddle(curr1)
+    if(list.kind != "empty"){
+      const next = list.tail
+      if(next.kind == "empty"){
+        return curr1
+      }
+      list.tail = emptyList<T>()
+      return sortedMerge(mergeSorter(curr1))(next)
+    }
+    
+    return curr1
+  }
+
+  const getMiddle = (list: List<T>) : List<T> => {
+    const getter = (slow: List<T>) => (fast: List<T>) : List<T> => {
+      if(fast.kind == "empty" || fast.tail.kind == "empty")
+        return slow
+      if(slow.kind != "empty"){
+        slow = slow.tail
+        fast = fast.tail.tail
+        return getter(slow)(fast)
+      }
+      return fast
+    }
+    return getter(list)(list)
+  }
+  return mergeSorter(l1)
+}
+
+prettyprintList(mergeSort(filledList(5, 4, 9, 8, 2, 3, 6)), console.log)

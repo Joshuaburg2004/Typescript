@@ -129,6 +129,7 @@ const compress = (l) => {
     return inner(l)({ kind: "none" });
 };
 prettyprintList(compress(filledList(1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 2, 1, 0)), console.log);
+console.log("EX-7");
 const caesarCypher = (l) => (shift) => {
     const caesar = (list) => {
         if (list.kind == "list" && list.head.charCodeAt(0) + Number(shift) <= 122) {
@@ -171,6 +172,7 @@ const caesarCypherWithUpper = (l) => (shift) => {
 };
 prettyprintList(caesarCypherWithUpper(filledList("h", "z", "g", "b"))(15n), console.log);
 prettyprintList(caesarCypher(filledList("h", "z", "g", "b"))(15n), console.log);
+console.log("EX-8");
 const splitAt = (i) => (l) => {
     const splitter = (iterator) => (list) => {
         if (list.kind == "list" && iterator <= i) {
@@ -200,3 +202,82 @@ const splitAt = (i) => (l) => {
 prettyprintList(splitAt(5n)(filledList(1, 2, 3, 4, 5, 6, 7, 8, 9))[0], console.log);
 console.log("-------");
 prettyprintList(splitAt(5n)(filledList(1, 2, 3, 4, 5, 6, 7, 8, 9))[1], console.log);
+console.log("EX-9");
+const merge = (l1) => (l2) => {
+    const merger = (curr1) => (curr2) => {
+        if (curr1.kind == "empty") {
+            return curr2;
+        }
+        if (curr2.kind == "empty") {
+            return curr1;
+        }
+        if (curr1.head < curr2.head) {
+            return ({
+                kind: "list",
+                head: curr1.head,
+                tail: merger(curr1.tail)(curr2)
+            });
+        }
+        return ({
+            kind: "list",
+            head: curr2.head,
+            tail: merger(curr1)(curr2.tail)
+        });
+    };
+    return merger(l1)(l2);
+};
+prettyprintList(merge(filledList(1, 2, 3, 5, 6, 7))(filledList(4, 8, 9, 10)), console.log);
+prettyprintList(merge(filledList("d", "e", "f"))(filledList("a", "b", "c", "p")), console.log);
+console.log("EX-10");
+const mergeSort = (l1) => {
+    const sortedMerge = (l2) => (l3) => {
+        if (l3.kind == "empty") {
+            return l2;
+        }
+        if (l2.kind == "empty") {
+            return l3;
+        }
+        if (l3.head < l2.head) {
+            return ({
+                kind: "list",
+                head: l3.head,
+                tail: sortedMerge(l3.tail)(l2)
+            });
+        }
+        return ({
+            kind: "list",
+            head: l2.head,
+            tail: sortedMerge(l3)(l2.tail)
+        });
+    };
+    const mergeSorter = (curr1) => {
+        if (curr1.kind == "empty" || curr1.tail.kind == "empty") {
+            return curr1;
+        }
+        const list = getMiddle(curr1);
+        if (list.kind != "empty") {
+            const next = list.tail;
+            if (next.kind == "empty") {
+                return rev(curr1);
+            }
+            list.tail = emptyList();
+            return sortedMerge(mergeSorter(curr1))(next);
+        }
+        return curr1;
+    };
+    const getMiddle = (list) => {
+        const getter = (slow) => (fast) => {
+            if (fast.kind == "empty" || fast.tail.kind == "empty")
+                return slow;
+            if (slow.kind != "empty") {
+                slow = slow.tail;
+                fast = fast.tail.tail;
+                return getter(slow)(fast);
+            }
+            return fast;
+        };
+        return getter(list)(list);
+    };
+    return mergeSorter(l1);
+};
+prettyprintList(mergeSort(filledList(4, 9, 8, 2, 3, 6)), console.log);
