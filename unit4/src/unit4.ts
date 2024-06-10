@@ -34,12 +34,17 @@ if(value.length == 0){
 const foldList = <U, V>(z: V) : (f: ((_: U) => (__: V) => V)) => (l: List<U>) => V => f => l =>
     l.kind == "empty" ? z : f(l.head)(foldList<U,V>(z)(f)(l.tail))
 
-const map = <T> (l: List<T>) => (f: ((_: T) => (__: T) => T)) : List<T> => {
+const map = <T, U> (l: List<T>) => (f: BasicFun<T, U>) : List<U> => {
   if(l.kind == "empty"){
     return {kind: "empty"}
   }
-  return foldList<T, List<T>>(l)(f)(l)
+  return {
+    kind: "list",
+    head: f(l.head),
+    tail: map<T, U>(l.tail)(f)
+  }
 }
 
 prettyprintList(map(filledList(5, 2, 7, 1, 9))(x => x * 2), console.log)
+
 
