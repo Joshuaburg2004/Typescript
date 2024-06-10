@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "node ./bin/Lesson4.js",
+    "start": "node .olderUnits/bin/Lesson4.js",
     "dev": "ts-node ./src/Lesson4.ts"
   },
   "dependencies": {
