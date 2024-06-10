@@ -1,2 +1,2 @@
 "use strict";
-console.log("Made a second project");
+console.log("EX-1");
