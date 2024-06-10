@@ -96,7 +96,6 @@ console.log(filterList((_) => _ % 2 == 0)(List([1, 4, 6, 7, 21, 64, 78, 11, 20])
 // => [4, 6, 64, 78, 20]  
 console.log(filterList((_) => _.startsWith("a"))(List(["a", "aa", "baa", "bb"])));
 // => ["a", "aa"]
-const foldList = (z) => f => l => l.kind == "empty" ? z : f(l.head)(foldList(z)(f)(l.tail));
 const foldList2 = (z) => f => l => l.kind == "empty" ? z : foldList(f(l.head)(z))(f)(l.tail);
 foldList(0)(x => y => x + y)(List([1, 2, 3]));
 // => (1 + (2 + (3 + 0))) => 6
