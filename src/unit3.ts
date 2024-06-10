@@ -328,3 +328,5 @@ const mergeSort = <T>(l1: List<T>) : List<T> => {
 }
 
 prettyprintList(mergeSort(filledList(5, 4, 9, 8, 2, 3, 6)), console.log)
+
+console.log("EX-11, 12 and 13 are weird")
