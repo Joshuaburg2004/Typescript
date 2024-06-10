@@ -1,9 +1,4 @@
 "use strict";
-const Fun = (f) => Object.assign(f, {
-    then: function (g) {
-        return Fun(a => g(this(a)));
-    }
-});
 const id = (v) => v;
 const Updater = (f) => Object.assign(f, {
     fun: Fun(f),
@@ -81,3 +76,4 @@ const List = () => ({
             List().Default.full(list_a.head, List().Filter(p)(list_a.tail))
             : List().Filter(p)(list_a.tail)),
 });
+//# sourceMappingURL=lesson4.js.map

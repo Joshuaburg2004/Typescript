@@ -111,3 +111,4 @@ const toBase = (n) => (base) => {
     return tobase(n);
 };
 console.log(toBase(15)(5));
+//# sourceMappingURL=app.js.map

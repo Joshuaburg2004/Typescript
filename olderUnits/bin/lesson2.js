@@ -37,3 +37,4 @@ const thing = (...b) => {
     return b[0];
 };
 console.log(thing(5, 4, 3, 2));
+//# sourceMappingURL=lesson2.js.map

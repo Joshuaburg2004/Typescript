@@ -1,4 +1,9 @@
 "use strict";
+const Fun = (f) => Object.assign(f, {
+    then: function (g) {
+        return Fun(a => g(this(a)));
+    }
+});
 const prettyprintList = (l, cont) => {
     if (l.kind == "empty") {
         return;
@@ -96,8 +101,11 @@ console.log("EX-5");
 const palindrome = (l) => {
     const inner = (curr) => (revl) => {
         if (curr.kind != "empty" && revl.kind != "empty") {
-            if (curr.tail.kind == "empty") {
+            if (curr.tail.kind == "empty" && revl.tail.kind == "empty") {
                 return true;
+            }
+            if (curr.tail.kind == "empty" || revl.tail.kind == "empty") {
+                return false;
             }
             if (curr.head == revl.head) {
                 return inner(curr.tail)(revl.tail);
@@ -281,4 +289,30 @@ const mergeSort = (l1) => {
     return mergeSorter(l1);
 };
 prettyprintList(mergeSort(filledList(5, 4, 9, 8, 2, 3, 6)), console.log);
-console.log("EX-11, 12 and 13 are weird");
+const isAtomic = (_) => _.kind == "Atomic";
+//const isNumber = (_ : Value) => typeof(_) == typeof(0)
+const isNumber = (_) => typeof (_) == 'number';
+const AValue = (_) => ({ AtomicValue: _, kind: "Atomic", Eval: Eval });
+const AsAtomicValue = (_) => ({ AtomicValue: _, kind: "Atomic" });
+const Add = (ex1) => ex2 => ({ Add: [ex1, ex2], kind: "Add", Eval: Eval });
+const Sub = (ex1) => ex2 => ({ Sub: [ex1, ex2], kind: "Sub", Eval: Eval });
+const Mul = (ex1) => ex2 => ({ Mul: [ex1, ex2], kind: "Mul", Eval: Eval });
+const Div = (ex1) => ex2 => ({ Div: [ex1, ex2], kind: "Div", Eval: Eval });
+const Mod = (ex1) => ex2 => ({ Mod: [ex1, ex2], kind: "Mod", Eval: Eval });
+function Eval() {
+    switch (this.kind) {
+        case "Atomic": return this;
+        case "Add": return Add(this.Add[0].Eval())(this.Add[1].Eval());
+        case "Sub": return Sub(this.Sub[0].Eval())(this.Sub[1].Eval());
+        case "Div": return Div(this.Div[0].Eval())(this.Div[1].Eval());
+        case "Mod": return Mod(this.Mod[0].Eval())(this.Mod[1].Eval());
+        case "Mul": return Mul(this.Mul[0].Eval())(this.Mul[1].Eval());
+        default: return this;
+    }
+}
+const aValue = AValue(12786);
+console.log(aValue);
+console.log(aValue.kind == "Atomic" ? aValue.AtomicValue : "<NO VALUE>");
+const expr = Div(Mul(AValue(10))(Sub(AValue(20))(Add(AValue(-3))(Add(AValue(2))(AValue(5))))))(AValue(2));
+console.log(expr.Eval());
+//# sourceMappingURL=unit3.js.map

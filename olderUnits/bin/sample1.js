@@ -17,3 +17,4 @@ function Range(min, max, step) {
 console.log(Range(10));
 console.log(Range(10, 20));
 console.log(Range(10, 20, -5));
+//# sourceMappingURL=sample1.js.map

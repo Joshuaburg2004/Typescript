@@ -91,3 +91,4 @@ class world {
 }
 let w = new world(15);
 w.Run();
+//# sourceMappingURL=unit2.js.map

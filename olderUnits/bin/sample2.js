@@ -12,3 +12,4 @@ console.log(reducer(1)(reducer(2)(reducer(3)(4))));
 console.log(reducer(4)(reducer(3)(reducer(2)(1))));
 console.log(aggregate(reducer)(1)(4));
 console.log(aggregate((a) => b => a + b)(1)(4));
+//# sourceMappingURL=sample2.js.map

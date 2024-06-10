@@ -1,18 +1,3 @@
-type BasicFun<a, b> = (_:a) => b
-type Fun<a, b> = BasicFun<a,b> & {
-    then: <c>(g:BasicFun<b, c>) => Fun<a, c>
-}
-
-const Fun = <a, b>(f:BasicFun<a,b>) : Fun<a, b> => 
-    Object.assign(
-        f, 
-        {
-            then:function<c>(this:Fun<a,b>, g:BasicFun<b,c>): Fun<a,c> {
-                return Fun(a => g(this(a)))
-            }
-        }
-    )
-
 const id = <a>(v:a) => v
 
 type BasicUpdater<s> = BasicFun<s, s>
