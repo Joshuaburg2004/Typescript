@@ -380,13 +380,54 @@ const Mod = (ex1: Expression) : (ex2: Expression) =>  Expression => ex2 => ({Mod
 function Eval(this: Expression) : Expression {
   switch(this.kind) {
     case "Atomic": return this
-    case "Add": return Add(this.Add[0].Eval())(this.Add[1].Eval())
-    case "Sub": return Sub(this.Sub[0].Eval())(this.Sub[1].Eval())
-    case "Div": return Div(this.Div[0].Eval())(this.Div[1].Eval())
-    case "Mod": return Mod(this.Mod[0].Eval())(this.Mod[1].Eval())
-    case "Mul": return Mul(this.Mul[0].Eval())(this.Mul[1].Eval())
+    case "Add": {
+      const l = this.Add[0].Eval()
+      const r = this.Add[1].Eval()
+      if(l.kind == "Atomic" && r.kind == "Atomic")
+        return (isNumber(l.AtomicValue) && isNumber(r.AtomicValue)) ? 
+            AValue((l.AtomicValue as number) + (r.AtomicValue as number)) :
+            AValue("" + l.AtomicValue + r.AtomicValue)
+    }
+    break
+    case "Sub": {
+      const l = this.Sub[0].Eval()
+      const r = this.Sub[1].Eval()
+      if(l.kind == "Atomic" && r.kind == "Atomic")
+        return (isNumber(l.AtomicValue) && isNumber(r.AtomicValue)) ? 
+            AValue((l.AtomicValue as number) - (r.AtomicValue as number)) :
+            AValue("INCORRECT EXPR")
+    }
+    break
+    case "Div": {
+      const l = this.Div[0].Eval()
+      const r = this.Div[1].Eval()
+      if(l.kind == "Atomic" && r.kind == "Atomic")
+        return (isNumber(l.AtomicValue) && isNumber(r.AtomicValue)) ? 
+            AValue((l.AtomicValue as number) / (r.AtomicValue as number)) :
+            AValue("INCORRECT EXPR")
+    }
+    break
+    case "Mod": {
+      const l = this.Mod[0].Eval()
+      const r = this.Mod[1].Eval()
+      if(l.kind == "Atomic" && r.kind == "Atomic")
+        return (isNumber(l.AtomicValue) && isNumber(r.AtomicValue)) ? 
+            AValue((l.AtomicValue as number) % (r.AtomicValue as number)) :
+            AValue("INCORRECT EXPR")
+    }
+    break
+    case "Mul": {
+      const l = this.Mul[0].Eval()
+      const r = this.Mul[1].Eval()
+      if(l.kind == "Atomic" && r.kind == "Atomic")
+        return (isNumber(l.AtomicValue) && isNumber(r.AtomicValue)) ? 
+            AValue((l.AtomicValue as number) * (r.AtomicValue as number)) :
+            AValue("INCORRECT EXPR")
+    }
+    break
     default: return this
   }
+  return this
 }
 
 const aValue : Expression = AValue(12786)

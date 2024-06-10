@@ -137,6 +137,7 @@ const compress = (l) => {
     return inner(l)({ kind: "none" });
 };
 prettyprintList(compress(filledList(1, 2, 3, 3, 4, 4, 5, 5, 5, 6, 2, 1, 0)), console.log);
+prettyprintList(compress(filledList("1", "2", "3", "3", "4", "4", "5", "5", "5", "6", "2", "1", "0")), console.log);
 console.log("EX-7");
 const caesarCypher = (l) => (shift) => {
     const caesar = (list) => {
@@ -302,13 +303,59 @@ const Mod = (ex1) => ex2 => ({ Mod: [ex1, ex2], kind: "Mod", Eval: Eval });
 function Eval() {
     switch (this.kind) {
         case "Atomic": return this;
-        case "Add": return Add(this.Add[0].Eval())(this.Add[1].Eval());
-        case "Sub": return Sub(this.Sub[0].Eval())(this.Sub[1].Eval());
-        case "Div": return Div(this.Div[0].Eval())(this.Div[1].Eval());
-        case "Mod": return Mod(this.Mod[0].Eval())(this.Mod[1].Eval());
-        case "Mul": return Mul(this.Mul[0].Eval())(this.Mul[1].Eval());
+        case "Add":
+            {
+                const l = this.Add[0].Eval();
+                const r = this.Add[1].Eval();
+                if (l.kind == "Atomic" && r.kind == "Atomic")
+                    return (isNumber(l.AtomicValue) && isNumber(r.AtomicValue)) ?
+                        AValue(l.AtomicValue + r.AtomicValue) :
+                        AValue("" + l.AtomicValue + r.AtomicValue);
+            }
+            break;
+        case "Sub":
+            {
+                const l = this.Sub[0].Eval();
+                const r = this.Sub[1].Eval();
+                if (l.kind == "Atomic" && r.kind == "Atomic")
+                    return (isNumber(l.AtomicValue) && isNumber(r.AtomicValue)) ?
+                        AValue(l.AtomicValue - r.AtomicValue) :
+                        AValue("INCORRECT EXPR");
+            }
+            break;
+        case "Div":
+            {
+                const l = this.Div[0].Eval();
+                const r = this.Div[1].Eval();
+                if (l.kind == "Atomic" && r.kind == "Atomic")
+                    return (isNumber(l.AtomicValue) && isNumber(r.AtomicValue)) ?
+                        AValue(l.AtomicValue / r.AtomicValue) :
+                        AValue("INCORRECT EXPR");
+            }
+            break;
+        case "Mod":
+            {
+                const l = this.Mod[0].Eval();
+                const r = this.Mod[1].Eval();
+                if (l.kind == "Atomic" && r.kind == "Atomic")
+                    return (isNumber(l.AtomicValue) && isNumber(r.AtomicValue)) ?
+                        AValue(l.AtomicValue % r.AtomicValue) :
+                        AValue("INCORRECT EXPR");
+            }
+            break;
+        case "Mul":
+            {
+                const l = this.Mul[0].Eval();
+                const r = this.Mul[1].Eval();
+                if (l.kind == "Atomic" && r.kind == "Atomic")
+                    return (isNumber(l.AtomicValue) && isNumber(r.AtomicValue)) ?
+                        AValue(l.AtomicValue * r.AtomicValue) :
+                        AValue("INCORRECT EXPR");
+            }
+            break;
         default: return this;
     }
+    return this;
 }
 const aValue = AValue(12786);
 console.log(aValue);
